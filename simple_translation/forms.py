@@ -30,9 +30,7 @@ class TranslationModelFormMetaclass(ModelFormMetaclass):
                 new_class.base_fields.update(new_class.child_form_class.base_fields)
         return new_class
         
-class TranslationModelForm(ModelForm):
-    __metaclass__ = TranslationModelFormMetaclass
-    
+class TranslationModelForm(ModelForm, metaclass=TranslationModelFormMetaclass):
     def __init__(self, data=None, files=None, auto_id='id_%s', prefix=None,
         initial={}, error_class=ErrorList, label_suffix=':',
         empty_permitted=False, instance=None):
@@ -72,7 +70,7 @@ class TranslationModelForm(ModelForm):
         if self.child_form._errors:
             if not self._errors:
                 self._errors = ErrorDict()
-            for k, v in self.child_form._errors.items():
+            for k, v in list(self.child_form._errors.items()):
                 if k in self._errors and k != NON_FIELD_ERRORS:
                     # remove existing errors so there are no duplicates
                     del self._errors[k]

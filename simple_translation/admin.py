@@ -40,7 +40,7 @@ def make_translation_admin(admin):
     
         def description(self, obj):
             return getattr(translation_pool.annotate_with_translations(obj), 'translations', []) \
-            	and unicode(translation_pool.annotate_with_translations(obj).translations[0]) or u'No translations'
+            	and str(translation_pool.annotate_with_translations(obj).translations[0]) or 'No translations'
         
         def languages(self, obj):
                 lnk = '<a href="%s/?language=%s">%s</a>'
@@ -132,7 +132,7 @@ def make_translation_admin(admin):
         
         def response_add(self, request, obj, post_url_continue='../%s/'):
             response = super(RealTranslationAdmin, self).response_add(request, obj, post_url_continue)
-            if request.POST.has_key("_continue"):
+            if "_continue" in request.POST:
                 language = get_language_from_request(request)
                 location = response._headers['location']
                 response._headers['location'] = (location[0], "%s?language=%s" % (location[1], language))

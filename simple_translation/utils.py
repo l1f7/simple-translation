@@ -25,7 +25,7 @@ def get_translation_filter(model, **kwargs):
     info = translation_pool.get_info(model)
     join_filter = info.translation_join_filter
     filter_dict = {}
-    for key, value in kwargs.items():
+    for key, value in list(kwargs.items()):
         filter_dict['%s__%s' % (join_filter, key)] = value
     return filter_dict
     

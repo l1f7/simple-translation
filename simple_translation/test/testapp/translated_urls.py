@@ -15,7 +15,7 @@ urlpatterns +=  patterns('', url(r'^',
     )
 )
 
-for langcode in dict(settings.LANGUAGES).keys():
+for langcode in list(dict(settings.LANGUAGES).keys()):
     urlpatterns +=  patterns('', url(r'^%s/' % langcode,
         include('simple_translation.test.testapp.urls',
             namespace=langcode, app_name='testapp'),
